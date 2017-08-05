@@ -1,0 +1,49 @@
+This file is for internal organization. I figure that I might aswell post it to the github repo since It will probably represent a fair bit of my working out. The more important information on this document should find itself into the README later.
+
+
+~roughly
+
+My goal/task:
+(1) Describe the weather from pictures.
+i)   pair the data together
+ii)  transform and clean the data
+iii) manipulate features
+iv)  choose some appropriate models
+v)   train and test models, make comparisons
+
+(2) Write a report
+- approximately 2 pages
+- cater to technically literate without using heavy jargon
+* steps taken from project outline
+i)   The problem you are addressing, particularly how you refined the provided idea.
+ii)  The data that you used: how it was gathered, cleaned, etc.
+iii) Techniques you used to analyse the data.
+iv)  Your results/findings/conclusions.
+v)   Some appropriate visualization of your data/results.
+vi)  Limitations: problems you encountered, things you would do if you had more time, things you should have done in retrospect, etc.
+
+Available Data:
+Weather-data
+- Date (Year, Month, Day, Time)
+- Data Quality
+- Temp (and for Dew Point)
+- Humidity
+- Wind (Dir, Spd)
+- Visibility
+- Pressure
+- Weather (Rain, Cloudy, Mostly Cloudy, NA, Clear, Mainly Clear, Rain Showers, Fog, Drizzle)
+Katkam-images
+- 5046 images
+- 256*192
+
+Problems:
+to be determined
+I think the biggest difficulty will be to get a good set of image features
+
+Ideas:
+use PCA to automatically reduce features
+lower resolution to reduce features.
+add some features (overall brightness, overall hue)
+
+Reminders!
+add ggbaker, yajiez as developers
