@@ -47,6 +47,7 @@ def readFiles():
     # return
     return weather_data, picture_data
 
+# Helper method to get date infromation from picture filename
 picture_fileName_pattern = re.compile(r"katkam-((\d{4})" + r"(\d{2})"*5 + r").jpg")
 def extract_time(name):
     m = picture_fileName_pattern.match(name)
@@ -59,6 +60,7 @@ def extract_time(name):
     # second = int(m.group(7))
     return "%s-%s-%s %s:%s" % (year, month, day, hour, minute)
 
+# Join weather and pictures on Date/Time. (Add Date/Time to pictures)
 def join(weather, pictures):
     pictures["Date/Time"] = pictures["Title"].apply(extract_time)
     pictures.set_index('Date/Time', inplace=True)
@@ -66,6 +68,8 @@ def join(weather, pictures):
     return weather.join(pictures, how="inner", rsuffix="_photo")
 
 def main():
+    # The level of coupling is pretty awful, but I might be ok with that.
+    # I'm only breaking the code into stages with the funcitons anyway.
     weather, pictures = readFiles()
     data = join(weather, pictures)
 
