@@ -19,6 +19,8 @@ import pandas as pd
 # imaging
 from matplotlib import pyplot as plt
 import seaborn as sns
+# regular expressions
+import re
 # misc
 from glob import glob # getting paths
 from os.path import basename # get base filenames from path format
@@ -40,6 +42,18 @@ def readFiles():
     picture_data = pd.concat(dfs).reset_index()
     # return
     return weather_data, picture_data
+
+picture_fileName_pattern = re.compile(r"katkam-((\d{4})" + r"(\d{2})"*5 + r").jpg")
+def extract_time(name):
+    m = picture_fileName_pattern.match(name)
+    # time   = m.group(1)
+    year   = m.group(2)
+    month  = m.group(3)
+    day    = m.group(4)
+    hour   = m.group(5)
+    minute = m.group(6)
+    # second = int(m.group(7))
+    return "%s-%s-%s %s:%s" % (year, month, day, hour, minute)
 
 def main():
     weather, pictures = readFiles()
