@@ -1,6 +1,29 @@
 This file is for internal organization. I figure that I might aswell post it to the github repo since It will probably represent a fair bit of my working out. The more important information on this document should find itself into the README later.
 
 
+===============================================
+ The process (includes some worries and stuff)
+===============================================
+
+data collection
+   given directory, read all of weather files into one table
+      # This uses a python for loop, but only for about 20 values. shouldn't matter
+      # header=14 is used as param to indicate start of data. Might want to do this dynamically instead of with a magic number
+   given directory, read all of picture files into one table
+      # This uses a python for loop, with about 5000 values. TODO take a look into this, it might be a good spot for optimization.
+      # Add filename to each entry as well, since it contains date information
+      # Data is given with 2 columns, first is base filename, second is an array of [r,g,b] triples
+      # STUB At some point the filename should be split into time, or year/month/day/hour (helper method)
+      # STUB At some point the [r,g,b] should be unpacked into labelled columns, to be each a feature (helper method?)
+
+
+
+
+
+===================================================================
+ The plan (mostly outlines what I (originally) think I need to do)
+===================================================================
+
 ~roughly
 
 My goal/task:
