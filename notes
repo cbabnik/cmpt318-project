@@ -15,7 +15,10 @@ data collection
       # Data is given with 2 columns, first is base filename, second is an array of [r,g,b] triples
       # Helper function exists to extract "year-month-day hour:minute" from fileName
       # STUB At some point the [r,g,b] should be unpacked into labelled columns, to be each a feature (helper method?)
-
+   join both tables into a super table!
+      # Get Date/Time for pictures (use helper function)
+      # Set both table's index to Date/Time
+      # Join them together (with an inner join)
 
 
 

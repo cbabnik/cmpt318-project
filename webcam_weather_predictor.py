@@ -58,8 +58,15 @@ def extract_time(name):
     # second = int(m.group(7))
     return "%s-%s-%s %s:%s" % (year, month, day, hour, minute)
 
+def join(weather, pictures):
+    pictures["Date/Time"] = pictures[0].apply(extract_time)
+    pictures.set_index('Date/Time', inplace=True)
+    weather.set_index('Date/Time', inplace=True)
+    return weather.join(pictures, how="inner", rsuffix="_photo")
+
 def main():
     weather, pictures = readFiles()
+    data = join(weather, pictures)
 
 if __name__=="__main__":
     main()
