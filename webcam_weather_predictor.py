@@ -43,6 +43,7 @@ def readFiles():
     paths = glob(images_dir + "/*.jpg")
     dfs = [pd.DataFrame([[basename(f), imread(f).reshape(-1,3)]]) for f in paths]
     picture_data = pd.concat(dfs).reset_index()
+    picture_data.columns = ["index", "Title", "Pixels"]
     # return
     return weather_data, picture_data
 
@@ -59,7 +60,7 @@ def extract_time(name):
     return "%s-%s-%s %s:%s" % (year, month, day, hour, minute)
 
 def join(weather, pictures):
-    pictures["Date/Time"] = pictures[0].apply(extract_time)
+    pictures["Date/Time"] = pictures["Title"].apply(extract_time)
     pictures.set_index('Date/Time', inplace=True)
     weather.set_index('Date/Time', inplace=True)
     return weather.join(pictures, how="inner", rsuffix="_photo")
