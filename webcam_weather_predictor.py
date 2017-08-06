@@ -77,17 +77,17 @@ def clean(data):
     # I only need Pixels and Weather, but I may want to care about the other four
     data = data[["Pixels",
                  "Weather",
-                 "Temp (°C)",
-                 "Stn Press (kPa)",
-                 "Rel Hum (%)",
-                 "Visibility (km)",
+                 #"Temp (°C)",
+                 #"Stn Press (kPa)",
+                 #"Rel Hum (%)",
+                 #"Visibility (km)",
     ]]
     data.columns = ["Pixels",
                     "Weather",
-                    "Temp",
-                    "Pressure",
-                    "Humidity",
-                    "Visibility",
+                    #"Temp",
+                    #"Pressure",
+                    #"Humidity",
+                    #"Visibility",
     ]
     return data
 
