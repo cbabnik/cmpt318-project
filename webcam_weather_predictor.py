@@ -16,6 +16,8 @@ output      = ""
 if len(sys.argv) >= 4:
     output  = sys.argv[3]
 
+# my files
+import image_feature_extraction as ife
 # standard
 import numpy as np
 import pandas as pd
@@ -95,8 +97,9 @@ def main():
     # The level of coupling is pretty awful, but I might be ok with that.
     # I'm only breaking the code into stages with the functions anyway.
     weather, pictures = readFiles()
-    data = join(weather, pictures)
-    data = clean(data)
+    raw_data = join(weather, pictures)
+    raw_data = clean(raw_data)
+    data = ife.select(raw_data, "Brightness", "Colours")
 
 if __name__=="__main__":
     main()

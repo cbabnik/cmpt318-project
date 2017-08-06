@@ -14,7 +14,6 @@ data collection
       # Add filename to each entry as well, since it contains date information
       # Data is given with 2 columns, first is base filename, second is an array of [r,g,b] triples
       # Helper function exists to extract "year-month-day hour:minute" from fileName
-      # STUB At some point the [r,g,b] should be unpacked into labelled columns, to be each a feature (helper method?)
    join both tables into a super table!
       # Get Date/Time for pictures (use helper function)
       # Set both table's index to Date/Time
@@ -26,6 +25,13 @@ clean & shape data
    # Select Columns [Pixels, Weather]
    # Select Columns as well, in case I might use them [Temp, Pressure, Humidity, Visibility]
    # TODO if I did some of this earlier, I could potentially avoid over 50% of the work reading in images
+
+image feature extraction
+   # This is the hardest part I think. I have a few theories of what ~might work.
+   # I am making a separate file to encapsulate all the options here.
+      1) overall brightness
+      2) overall r,g,b
+      3) a brightness feature per pixel
 
 
 
