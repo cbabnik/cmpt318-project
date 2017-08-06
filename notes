@@ -20,6 +20,14 @@ data collection
       # Set both table's index to Date/Time
       # Join them together (with an inner join)
 
+clean & shape data
+   # Throw out rows with no Weather Reading.
+   # Throw out rows with Data Quality M or E
+   # Select Columns [Pixels, Weather]
+   # Select Columns as well, in case I might use them [Temp, Pressure, Humidity, Visibility]
+   # TODO if I did some of this earlier, I could potentially avoid over 50% of the work reading in images
+
+
 
 
 

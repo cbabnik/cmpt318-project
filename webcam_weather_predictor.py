@@ -37,7 +37,7 @@ HEADER_LINE = 14 # For Columns in weather columns
 def readFiles():
     # read weather_data
     paths = glob(weather_dir + "/*.csv")
-    dfs = [pd.read_csv(f,header=HEADER_LINE) for f in paths]
+    dfs = [pd.read_csv(f,header=HEADER_LINE,keep_default_na=False) for f in paths]
     weather_data = pd.concat(dfs).reset_index()
     # read pictures_data
     paths = glob(images_dir + "/*.jpg")
@@ -67,11 +67,36 @@ def join(weather, pictures):
     weather.set_index('Date/Time', inplace=True)
     return weather.join(pictures, how="inner", rsuffix="_photo")
 
+# Both the cleaning and the shaping
+# Remove bad data (missing values, etc)
+# Remove unneccessary columns, and name how I like.
+# Don't do anything with Pixels, that gets it's own function
+def clean(data):
+    data = data[data["Data Quality"] == "‡"] # no incomplete or estimated data
+    data = data[data["Weather"] != "NA"]
+    # I only need Pixels and Weather, but I may want to care about the other four
+    data = data[["Pixels",
+                 "Weather",
+                 "Temp (°C)",
+                 "Stn Press (kPa)",
+                 "Rel Hum (%)",
+                 "Visibility (km)",
+    ]]
+    data.columns = ["Pixels",
+                    "Weather",
+                    "Temp",
+                    "Pressure",
+                    "Humidity",
+                    "Visibility",
+    ]
+    return data
+
 def main():
     # The level of coupling is pretty awful, but I might be ok with that.
     # I'm only breaking the code into stages with the funcitons anyway.
     weather, pictures = readFiles()
     data = join(weather, pictures)
+    data = clean(data)
 
 if __name__=="__main__":
     main()
