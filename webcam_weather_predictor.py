@@ -8,10 +8,13 @@ if len(sys.argv) < 4:
     print("Improper call to python file  webcam_weather_predictor.py")
     print("Try the form: python3 webcam_weather_predictor.py " +
           "<images dir> <weather dir> <output>")
+    print("(<output> is optional. Without it results are printed but not written.)")
     sys.exit(1)
 images_dir  = sys.argv[1]
 weather_dir = sys.argv[2]
-output      = sys.argv[3]
+output      = ""
+if len(sys.argv) >= 4:
+    output  = sys.argv[3]
 
 # standard
 import numpy as np
