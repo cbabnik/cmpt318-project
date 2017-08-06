@@ -57,7 +57,7 @@ def extract_time(name):
     day    = m.group(4)
     hour   = m.group(5)
     minute = m.group(6)
-    # second = int(m.group(7))
+    # second = m.group(7)
     return "%s-%s-%s %s:%s" % (year, month, day, hour, minute)
 
 # Join weather and pictures on Date/Time. (Add Date/Time to pictures)
@@ -93,7 +93,7 @@ def clean(data):
 
 def main():
     # The level of coupling is pretty awful, but I might be ok with that.
-    # I'm only breaking the code into stages with the funcitons anyway.
+    # I'm only breaking the code into stages with the functions anyway.
     weather, pictures = readFiles()
     data = join(weather, pictures)
     data = clean(data)
