@@ -13,6 +13,7 @@ from sklearn.svm         import SVC
 # To use:
 # 1) set X, y
 # 2) feed a pd.DataFrame to construct X_train, X_test, y_train, y_test
+# 3) call desired models with parameters
 
 TEST_PERCENT = 0.20
 
