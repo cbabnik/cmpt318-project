@@ -32,32 +32,23 @@ def feed(df):
 
 def knn(n=1, post=False, write=False):
     model = KNeighborsClassifier(n_neighbors=n)
-    model.fit(X_train, y_train)
-    if post:
-        print("K Nearest Neighbors (n=%d) scored: %.2f%%"
-              % (n, model.score(X_test, y_test)))
-    if write:
-        pass
-    return model
+    name = "K Nearest Neighbours (n=%d)" %n
+    return use_model(model, name, post, write)
 
 def svm(C, gamma=None, post=False, write=False):
-    if gamma==None:
-        model = SVC(C=C)
-    else:
-        model = SVC(C=C,gamma=gamma)
-    model.fit(X_train, y_train)
-    if post:
-        print("Support Vector Machine (C=%g, gamma=%g) scored: %.2f%%"
-              % (C, gamma, model.score(X_test, y_test)))
-    if write:
-        pass
-    return model
+    if gamma==None: model = SVC(C=C)
+    else:           model = SVC(C=C,gamma=gamma)
+    name = "Support Vector Machine (C=%g, gamma=%g)" % (C, gamma)
+    return use_model(model, name, post, write)
 
 def bayes(post=False, write=False):
     model = GaussianNB()
+    return use_model(model, "Naive Bayes", post, write)
+
+def use_model(model, name, post=False, write=False):
     model.fit(X_train, y_train)
     if post:
-        print("Naive Bayes scored: %.2f%%" % (model.score(X_test, y_test)))
+        print(name + " scored: %.2f%%" % (model.score(X_test, y_test)))
     if write:
         pass
     return model
