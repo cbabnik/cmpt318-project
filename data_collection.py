@@ -12,6 +12,7 @@ import re
 from glob import glob # getting paths
 from os.path import basename # get base filenames from path format
 from scipy.misc import imread # read image
+from scipy.misc import imresize # resize image
 
 # This file includes methods to transform a list of pixels to features.
 
@@ -38,11 +39,13 @@ def readWeather(dir_path):
     ]]
     return weather_data
 
-def readImage(full_path):
+def readImage(full_path, resize=None):
     try:
-        pixels = imread(full_path).reshape(-1,3) # row major order
-    except:
-        pixels = None
+        if resize is None:
+            pixels = imread(full_path).reshape(-1,3) # row major order
+        else:
+            pixels = imresize(imread(full_path),resize).reshape(-1,3)
+    except: pixels = None
     return pixels
 
 def dateToFileName(date_str):
@@ -53,5 +56,5 @@ def dateToFileName(date_str):
     hour   = m.group(4)
     return PICTURE_FORMAT % (year, month, day, hour)
 
-def readImageFromDate(date_str, dir_path):
-    return readImage(dir_path +'/'+ dateToFileName(date_str))
+def readImageFromDate(date_str, dir_path, resize=None):
+    return readImage(dir_path +'/'+ dateToFileName(date_str), resize)

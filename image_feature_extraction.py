@@ -9,10 +9,10 @@ import sys
 
 # This file includes methods to transform a list of pixels to features.
 
-RESOLUTION_W = 256
-RESOLUTION_H = 192
+RESOLUTION_W = 256 # override this if needed, all images should match
+RESOLUTION_H = 192 # override this if needed, all images should match
 
-# pixels expected in format [W*H][3], with row major order
+# pixels expected in format [W*H][3], with row major order (~order not matter)
 
 def overall_brightness(pixels):
     return np.mean(pixels)
@@ -28,19 +28,25 @@ def brightness(pixels):
     return np.mean(pixels, axis=1)
 brightness_vec = np.vectorize(brightness)
 
-# TODO this is inefficient, work on it.
+# TODO this is still kind of inefficient. Think about it
+# ( The issue is that: series.of.arrays->np.matrix->dataframe->concat )
 def select(df, *args):
     pix = df["Pixels"]
     # build return frame from a concatenation
     frames = [df.drop('Pixels',1)]
     for arg in args:
         if arg == "Brightness Pix":
-            pass
-            # this is serving to be a bit of a problem, I'll come back to it
+            values = np.matrix(pix.apply(brightness).tolist())
+            frame = pd.DataFrame(values, index=df.index)
+            frames.append(frame)
         elif arg == "Brightness":
-            frames.append(pix.apply(overall_brightness))
+            series = pix.apply(overall_brightness).rename("Brightness")
+            frames.append(series)
         elif arg == "Colours":
-            frames.append(pix.apply(overall_colours).apply(pd.Series))
+            values = np.matrix(pix.apply(overall_colours).tolist())
+            frame = pd.DataFrame(values, index=df.index)
+            frame.columns = ['Red', 'Green', 'Blue']
+            frames.append(frame)
         else:
             print("Invalid select: " + arg)
             sys.exit(1)

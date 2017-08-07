@@ -28,6 +28,10 @@ import data_collection as reader
 from matplotlib import pyplot as plt
 import seaborn as sns
 
+# overwrite ife with these
+RES_X = 64
+RES_Y = 48
+
 def getSnow(string):
     if string.find("Snow") != -1: return "Snow"
     else:                         return "No Snow"
