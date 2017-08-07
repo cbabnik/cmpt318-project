@@ -33,7 +33,7 @@ def knn(n=1, post=False, write=False):
     model = KNeighborsClassifier(n_neighbors=n)
     model.fit(X_train, y_train)
     if post:
-        print("K Nearest Neighbors (n=%d) scored: %f \% accuracy"
+        print("K Nearest Neighbors (n=%d) scored: %.2f%%"
               % (n, model.score(X_test, y_test)))
     if write:
         pass
@@ -46,7 +46,7 @@ def svm(C, gamma=None, post=False, write=False):
         model = SVC(C=C,gamma=gamma)
     model.fit(X_train, y_train)
     if post:
-        print("Support Vector Machine (C=%g, gamma=%g) scored: %f \% accuracy"
+        print("Support Vector Machine (C=%g, gamma=%g) scored: %.2f%%"
               % (C, gamma, model.score(X_test, y_test)))
     if write:
         pass
@@ -56,7 +56,7 @@ def bayes(post=False, write=False):
     model = GaussianNB()
     model.fit(X_train, y_train)
     if post:
-        print("Naive Bayes scored: %f \% accuracy" % (model.score(X_test, y_test)))
+        print("Naive Bayes scored: %.2f%%" % (model.score(X_test, y_test)))
     if write:
         pass
     return model
