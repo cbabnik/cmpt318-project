@@ -29,31 +29,21 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 
 def getSnow(string):
-    if string.find("Snow") != -1:
-        return "Snow"
-    else:
-        return "No Snow"
+    if string.find("Snow") != -1: return "Snow"
+    else:                         return "No Snow"
 def getRain(string):
-    if string.find("Rain") != -1:
-        return "Rain"
-    elif string.find("Drizzle") != -1:
-        return None
-    else:
-        return "No Rain"
+    if string.find("Rain") != -1:      return "Rain"
+    elif string.find("Drizzle") != -1: return None
+    else:                              return "No Rain"
 def getClouds(string):
-    if string.find("Mostly Cloudy") != -1:
-        return "Somewhat Cloudy"
-    elif string.find("Mainly Clear") != -1:
-        return "Somewhat Cloudy"
-    elif string.find("Cloudy") != -1:
-        return "Very Cloudy"
-    else:
-        return "Clear"
+    if string.find("Mostly Cloudy") != -1:  return "Somewhat Cloudy"
+    elif string.find("Mainly Clear") != -1: return "Somewhat Cloudy"
+    elif string.find("Cloudy") != -1:       return "Very Cloudy"
+    elif string.find("Clear") != -1:        return "Clear"
+    else:                                   return None
 def getFog(string):
-    if string.find("Fog") != -1:
-        return "Fog"
-    else:
-        return "No Fog"
+    if string.find("Fog") != -1: return "Fog"
+    else:                        return "No Fog"
 
 def splitWeather(weather_data):
     weather_data["Rain"] = weather_data["Weather"].apply(getRain)
