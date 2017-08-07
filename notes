@@ -32,9 +32,19 @@ image feature extraction
       1) overall brightness
       2) overall r,g,b
       3) a brightness feature per pixel
+   # STUB names are kind of needed for these columns
 
-
-
+modelling
+   # Step Process
+      1) choose labels you care about
+      2) feed data to create training data
+      3) test with any number of classifiers
+   # Classifier Options
+      1) knn (choose n)
+      2) svc (choose C, gamma)
+      3) bayes
+      # Todo Consider adding regression
+   # STUB add pipelining for things like PCA
 
 
 ===================================================================

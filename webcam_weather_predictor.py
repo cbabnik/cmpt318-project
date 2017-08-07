@@ -18,6 +18,7 @@ if len(sys.argv) >= 4:
 
 # my files
 import image_feature_extraction as ife
+import modelling as models
 # standard
 import numpy as np
 import pandas as pd
@@ -100,6 +101,15 @@ def main():
     raw_data = join(weather, pictures)
     raw_data = clean(raw_data)
     data = ife.select(raw_data, "Brightness", "Colours")
+
+    models.X_labels = ["Pixels", 0, 1, 2]
+    models.feed(data)
+
+    print()
+    models.svm(C=100, gamma=0.0001, post=True)
+    models.bayes(post=True)
+    models.knn(post=True)
+    models.knn(n=5, post=True)
 
 if __name__=="__main__":
     main()
