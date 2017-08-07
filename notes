@@ -47,19 +47,21 @@ modelling
    # STUB add pipelining for things like PCA
 
 
-===================================================================
- The plan (mostly outlines what I (originally) think I need to do)
-===================================================================
+
+
+
+=========
+ The plan
+=========
 
 ~roughly
 
 My goal/task:
-(1) Describe the weather from pictures.
-i)   pair the data together
-ii)  transform and clean the data
-iii) manipulate features
-iv)  choose some appropriate models
-v)   train and test models, make comparisons
+   Given a picture, declare:
+   1) It's Clear/Somewhat Cloudy/Very Cloudy
+   2) It's Rainy/Not Raining
+   3) It's Snowing/Not Snowing
+   4) There's Fog/No Fog
 
 (2) Write a report
 - approximately 2 pages
@@ -72,28 +74,43 @@ iv)  Your results/findings/conclusions.
 v)   Some appropriate visualization of your data/results.
 vi)  Limitations: problems you encountered, things you would do if you had more time, things you should have done in retrospect, etc.
 
-Available Data:
+Available Data That may be relevent:
 Weather-data
-- Date (Year, Month, Day, Time)
-- Data Quality
-- Temp (and for Dew Point)
-- Humidity
-- Wind (Dir, Spd)
-- Visibility
-- Pressure
-- Weather (Rain, Cloudy, Mostly Cloudy, NA, Clear, Mainly Clear, Rain Showers, Fog, Drizzle)
+   - Date (Year, Month, Day, Time)
+   - Data Quality
+   - Weather (Raining? Cloudy?, Fog?, Thunderstorm? Snow?)
+   - Temp, Humidity, Pressure, Visibility
 Katkam-images
-- 5046 images
-- 256*192
+   - 5046 images
+   - only 2248 that I care about (with weather classifications)
+   - each 256*192 resolution
+
+The form I want the table in
+   Index: Date
+   Weather_Clear: "Clear" "Somewhat Cloudy" "Very Cloudy"
+   Weather_Snow: "Yes" "No"
+   Weather_Rain: "Yes" "No"
+   Fog: "Yes" "No"
+   FEATURES
 
 Problems:
-to be determined
-I think the biggest difficulty will be to get a good set of image features
+   Extracting the features from the image is a pain
+   It's somewhat difficult to get everything to work efficiently
 
 Ideas:
-use PCA to automatically reduce features
-lower resolution to reduce features.
-add some features (overall brightness, overall hue)
+
+   use PCA to automatically reduce features
+   lower resolution to reduce features.
+
+   Use overall brightness as feature
+   Use tint (red green blue) as feature
+   Use outlines pixels as features
+   Use grayscale pixels as features
+
+   Make more efficient by sharing X_data for each of y features
+   Make more efficient by only reading in data for relevent images
+   Make more efficient by getting rid of python loops and comprehensions
+   Make more efficient by doing more stuff in place
 
 Reminders!
 add ggbaker, yajiez as developers
