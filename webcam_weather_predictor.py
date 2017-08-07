@@ -57,25 +57,32 @@ def splitWeather(weather_data):
     weather_data.drop("Weather", axis=1, inplace=True)
 
 def main():
+    # collect weather & pixels
     raw_data = reader.readWeather(weather_dir)
     raw_data['Pixels'] = raw_data['Date/Time'].apply(
-            reader.readImageFromDate, dir_path=images_dir)
-    raw_data = raw_data[pd.notnull(raw_data['Pixels'])]
+            reader.readImageFromDate, dir_path=images_dir, resize=(RES_X,RES_Y))
+    raw_data = raw_data[pd.notnull(raw_data['Pixels'])]  # remove times with no pic
     raw_data.set_index('Date/Time', inplace=True)
 
+    # split weather into its pixels
     splitWeather(raw_data)
 
+    # extract features from pixels (and toss pixels)
+    ife.RESOLUTION_W = RES_X
+    ife.RESOLUTION_H = RES_Y
     data = ife.select(raw_data, "Brightness", "Colours")
 
-    models.X_labels = ["Pixels", 0, 1, 2]
-    models.y_labels = "Clouds"
-    models.feed(data)
-
-    print()
-    models.svm(C=100, gamma=0.0001, post=True)
-    models.bayes(post=True)
-    models.knn(post=True)
-    models.knn(n=5, post=True)
+    # play with models!
+    models.X_labels = ["Brightness", "Red", "Green", "Blue"]
+    for y in ["Rain", "Snow", "Fog", "Clouds"]:
+        models.y_labels = y
+        models.feed(data[pd.notnull(data[y])])
+        print()
+        print("predicting for __%s__:" % y)
+        models.svm(C=100, gamma=0.0001, post=True)
+        models.bayes(post=True)
+        models.knn(post=True)
+        models.knn(n=7, post=True)
 
 if __name__=="__main__":
     main()
