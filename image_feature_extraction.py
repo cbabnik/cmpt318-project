@@ -16,17 +16,14 @@ RESOLUTION_H = 192 # override this if needed, all images should match
 
 def overall_brightness(pixels):
     return np.mean(pixels)
-overall_brightness_vec = np.vectorize(overall_brightness)
 
 # gives 3 features
 def overall_colours(pixels):
     return np.mean(pixels, axis=0)
-overall_colours_vec = np.vectorize(overall_brightness)
 
 # gives a feature for each pixel
 def brightness(pixels):
     return np.mean(pixels, axis=1)
-brightness_vec = np.vectorize(brightness)
 
 # TODO this is still kind of inefficient. Think about it
 # ( The issue is that: series.of.arrays->np.matrix->dataframe->concat )
