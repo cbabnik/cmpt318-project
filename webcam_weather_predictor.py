@@ -120,7 +120,7 @@ def main():
     grid_counts = np.array(grid_counts).reshape(5,5)
     grid = pd.DataFrame(grid_counts, index=OPTS, columns=OPTS)
     totals = grid.sum(axis=1)
-    pcgrid = grid.div(totals)
+    pcgrid = grid.div(totals, axis=0)
     grid["total"] = totals
     pcgrid = pcgrid.applymap(toPercent)
     pcgrid["correct"] = np.diag(pcgrid)
