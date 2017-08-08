@@ -1,0 +1,58 @@
+This file is kind of a notes extension. I made it for my own reference, but it includes some working out and
+organization. So I thought I might as well put it on GitHub aswell.
+
+Weather Counts
+
+Clear                                315
+Cloudy                               886
+Drizzle,Fog                           17
+Fog                                   20
+Freezing Fog                           4
+Freezing Rain,Fog                      4
+Heavy Rain                             2
+Heavy Rain,Fog                         3
+Ice Pellets                            1
+Mainly Clear                         600
+Moderate Rain                         47
+Moderate Rain Showers                  3
+Moderate Rain Showers,Fog              2
+Moderate Rain,Drizzle                  2
+Moderate Rain,Fog                     24
+Moderate Snow                          6
+Moderate Snow,Fog                      1
+Mostly Cloudy                        735
+Rain                                 992
+Rain Showers                         233
+Rain Showers,Fog                       4
+Rain Showers,Snow Pellets              1
+Rain Showers,Snow Showers              2
+Rain Showers,Snow Showers,Fog          1
+Rain,Drizzle                           9
+Rain,Drizzle,Fog                      11
+Rain,Fog                              97
+Rain,Ice Pellets                       1
+Rain,Snow                             14
+Rain,Snow,Fog                          3
+Snow                                 101
+Snow Showers                          12
+Snow,Fog                               7
+Snow,Ice Pellets,Fog                   1
+Thunderstorms,Rain Showers             1
+
+interesting results from above.
+Clear, Cloudy, Mostly Clear, Moderately Cloudy, are mutually exclusive to rain descriptions.
+So I can expect those to be descriptions of no rain.
+
+Summary, we get two main tables
+(1) sky
+   [1456] Rain
+   [128]  Snow
+   [886]  Very Cloudy
+   [1335] Somewhat Cloudy
+   [315]  Clear
+(2) fog
+   [158]  Fog
+   [3962] No Fog
+
+not that getting a 90%+ score for Fog is trivial.
+my focus is on the "sky" table, i'll challenge fog if I have time
