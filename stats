@@ -38,6 +38,7 @@ Snow Showers                          12
 Snow,Fog                               7
 Snow,Ice Pellets,Fog                   1
 Thunderstorms,Rain Showers             1
+(values taken from all weather data)
 
 interesting results from above.
 Clear, Cloudy, Mostly Clear, Moderately Cloudy, are mutually exclusive to rain descriptions.
@@ -45,14 +46,15 @@ So I can expect those to be descriptions of no rain.
 
 Summary, we get two main tables
 (1) sky
-   [1456] Rain
-   [128]  Snow
-   [886]  Very Cloudy
-   [1335] Somewhat Cloudy
-   [315]  Clear
+   [757] Rain
+   [80]  Snow
+   [470]  Very Cloudy
+   [770] Somewhat Cloudy
+   [131]  Clear
 (2) fog
-   [158]  Fog
-   [3962] No Fog
+   [97]  Fog
+   [2111] No Fog
+(values taken just from image matched weather data, what i am using)
 
-not that getting a 90%+ score for Fog is trivial.
+note that getting a 90%+ score for Fog is trivial.
 my focus is on the "sky" table, i'll challenge fog if I have time
