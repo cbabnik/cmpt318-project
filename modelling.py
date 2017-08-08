@@ -58,5 +58,5 @@ def bayes(post=False):
 def use_model(model, name, post=False):
     model.fit(X_train, y_train)
     if post:
-        print(name + " scored: %.2f%%" % (model.score(X_test, y_test)))
+        print(name + " scored: %.0f%%" % (100*model.score(X_test, y_test)))
     return model

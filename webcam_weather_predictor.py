@@ -56,6 +56,9 @@ def allFeatures(df):
     features = features.drop(["Sky", "Fog"])
     return features
 
+def toPercent(fl):
+    return str(int(np.round(fl*100))) + "%"
+
 def main():
     print()
     # collect weather
@@ -119,12 +122,14 @@ def main():
     totals = grid.sum(axis=1)
     pcgrid = grid.div(totals)
     grid["total"] = totals
-    pcgrid = pcgrid.round(2)
+    pcgrid = pcgrid.applymap(toPercent)
     pcgrid["correct"] = np.diag(pcgrid)
 
     print("Predictions as columns, Reality as index")
+    print()
     print("_Totals_")
     print(grid)
+    print()
     print("_Percents_")
     print(pcgrid)
 
