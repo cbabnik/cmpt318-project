@@ -19,7 +19,6 @@ from sklearn.svm         import SVC
 
 TEST_PERCENT = 0.20
 PCA_FEATURES = None
-pca_transformer = None
 
 X_labels = []
 y_labels = "Weather"
@@ -35,7 +34,9 @@ def feed(df):
     y = df[y_labels].values
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_PERCENT)
     if PCA_FEATURES is not None:
-        pca_transformer = PCA(PCA_FEATURES).fit(X_train, y_train)
+        pca = PCA(PCA_FEATURES).fit(X_train, y_train)
+        X_train = pca.transform(X_train)
+        X_test  = pca.transform(X_test)
 
 def knn(n=1, post=False, write=False):
     model = KNeighborsClassifier(n_neighbors=n)
@@ -53,11 +54,6 @@ def bayes(post=False, write=False):
     return use_model(model, "Naive Bayes", post, write)
 
 def use_model(model, name, post=False, write=False):
-    if PCA_FEATURES is not None:
-        model = make_pipeline(
-            PCA(PCA_FEATURES), # should be able to use pca_transformer here instead
-            model,
-        )
     model.fit(X_train, y_train)
     if post:
         print(name + " scored: %.2f%%" % (model.score(X_test, y_test)))
