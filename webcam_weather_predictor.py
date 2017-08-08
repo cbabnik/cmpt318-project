@@ -79,17 +79,54 @@ def main():
 
     # setup modelling data
     print("Using PCA to reduce features... (%s features)" % PCA_F)
-    print("...please be patient...")
+    print("...please be patient (total time 30s on my machine)...")
     models.X_labels = allFeatures(data)
     models.y_labels = "Sky"
     models.PCA_FEATURES = PCA_F
     models.feed(data)
 
+    print()
     print("results:")
     # try, fit, and extract data from models
     models.bayes(post=True)
     models.knn(n=10, post=True)
-    models.svm(C=2, gamma=1e-6, post=True)
+    model = models.svm(C=2, gamma=1e-6, post=True) # return best
+
+    # ==========
+    #  Analysis
+    # ==========
+    print()
+    print("(SVM model will be used for results, since it usually does best)")
+    # pair predictions with original data
+    predictions = pd.DataFrame(model.predict(models.X_test), index=models.test_index)
+    predictions = predictions.join(data["Sky"])
+    predictions.columns = ["Prediction", "Reality"]
+    # count all
+    prediction_counts = predictions
+    prediction_counts["Occurrences"] = 1
+    counts = prediction_counts.groupby(["Reality", "Prediction"]).count()
+    # now shape nicely in some grids
+    counts2 = counts.reset_index()
+    counts2.set_index(counts2["Reality"]+counts2["Prediction"], inplace=True)
+    counts2 = counts2["Occurrences"]
+    grid_counts = []
+    OPTS = ["Clear", "Somewhat Cloudy", "Very Cloudy", "Rain", "Snow"]
+    for x in OPTS:
+        for y in OPTS:
+            grid_counts.append(counts2.get(x+y, 0))
+    grid_counts = np.array(grid_counts).reshape(5,5)
+    grid = pd.DataFrame(grid_counts, index=OPTS, columns=OPTS)
+    totals = grid.sum(axis=1)
+    pcgrid = grid.div(totals)
+    grid["total"] = totals
+    pcgrid = pcgrid.round(2)
+    pcgrid["correct"] = np.diag(pcgrid)
+
+    print("Predictions as columns, Reality as index")
+    print("_Totals_")
+    print(grid)
+    print("_Percents_")
+    print(pcgrid)
 
     # output some results
     if output_dir is not None:
