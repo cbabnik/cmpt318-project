@@ -43,9 +43,8 @@ def knn(n=1, post=False, write=False):
     name = "K Nearest Neighbours (n=%d)" %n
     return use_model(model, name, post, write)
 
-def svm(C, gamma=None, post=False, write=False):
-    if gamma==None: model = SVC(C=C)
-    else:           model = SVC(C=C,gamma=gamma)
+def svm(C, gamma, post=False, write=False):
+    model = SVC(C=C,gamma=gamma)
     name = "Support Vector Machine (C=%g, gamma=%g)" % (C, gamma)
     return use_model(model, name, post, write)
 
