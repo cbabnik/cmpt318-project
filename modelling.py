@@ -20,19 +20,22 @@ from sklearn.svm         import SVC
 TEST_PERCENT = 0.20
 PCA_FEATURES = None
 
-X_labels = []
+pca = None
+X_labels = None
 y_labels = "Weather"
-X_train = []
-X_test  = []
-y_train = []
-y_test  = []
+X_train = None
+X_test  = None
+y_train = None
+y_test  = None
+test_index = None
 
 def feed(df):
     global X_train, X_test, y_train, y_test
-    global pca_transformer
-    X = df[X_labels].values
-    y = df[y_labels].values
+    global pca, test_index
+    X = df[X_labels]
+    y = df[y_labels]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_PERCENT)
+    test_index = X_test.index
     if PCA_FEATURES is not None:
         pca = PCA(PCA_FEATURES).fit(X_train, y_train)
         X_train = pca.transform(X_train)
