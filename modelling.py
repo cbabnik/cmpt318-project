@@ -38,24 +38,22 @@ def feed(df):
         X_train = pca.transform(X_train)
         X_test  = pca.transform(X_test)
 
-def knn(n=1, post=False, write=False):
+def knn(n=1, post=False):
     model = KNeighborsClassifier(n_neighbors=n)
     name = "K Nearest Neighbours (n=%d)" %n
-    return use_model(model, name, post, write)
+    return use_model(model, name, post)
 
-def svm(C, gamma, post=False, write=False):
+def svm(C, gamma, post=False):
     model = SVC(C=C,gamma=gamma)
     name = "Support Vector Machine (C=%g, gamma=%g)" % (C, gamma)
-    return use_model(model, name, post, write)
+    return use_model(model, name, post)
 
-def bayes(post=False, write=False):
+def bayes(post=False):
     model = GaussianNB()
-    return use_model(model, "Naive Bayes", post, write)
+    return use_model(model, "Naive Bayes", post)
 
-def use_model(model, name, post=False, write=False):
+def use_model(model, name, post=False):
     model.fit(X_train, y_train)
     if post:
         print(name + " scored: %.2f%%" % (model.score(X_test, y_test)))
-    if write:
-        pass
     return model
