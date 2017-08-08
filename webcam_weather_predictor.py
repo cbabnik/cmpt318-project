@@ -31,6 +31,7 @@ import seaborn as sns
 # overwrite ife with these
 RES_X = 64
 RES_Y = 48
+PCA_F = 10
 
 def getSnow(string):
     if string.find("Snow") != -1: return "Snow"
@@ -56,6 +57,11 @@ def splitWeather(weather_data):
     weather_data["Fog"] = weather_data["Weather"].apply(getFog)
     weather_data.drop("Weather", axis=1, inplace=True)
 
+def allFeatures(df):
+    features = df.columns
+    features = features.drop(["Snow", "Rain", "Fog", "Clouds"])
+    return features
+
 def main():
     # collect weather & pixels
     raw_data = reader.readWeather(weather_dir)
@@ -70,10 +76,11 @@ def main():
     # extract features from pixels (and toss pixels)
     ife.RESOLUTION_W = RES_X
     ife.RESOLUTION_H = RES_Y
-    data = ife.select(raw_data, "Brightness", "Colours")
+    data = ife.select(raw_data, "Brightness", "Colours", "Brightness Pix")
 
     # play with models!
-    models.X_labels = ["Brightness", "Red", "Green", "Blue"]
+    models.X_labels = allFeatures(data)
+    models.PCA_FEATURES = PCA_F
     for y in ["Rain", "Snow", "Fog", "Clouds"]:
         models.y_labels = y
         models.feed(data[pd.notnull(data[y])])
@@ -81,7 +88,6 @@ def main():
         print("predicting for __%s__:" % y)
         models.svm(C=100, gamma=0.0001, post=True)
         models.bayes(post=True)
-        models.knn(post=True)
         models.knn(n=7, post=True)
 
 if __name__=="__main__":
