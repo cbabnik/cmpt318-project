@@ -1,0 +1,4 @@
+These files are only to show off the expected format of input files.
+A much higher volume of input is expected by my program.
+
+Also, example_input has no relation to example_output (which was produced from a larger volume of data)
