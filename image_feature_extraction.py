@@ -25,6 +25,10 @@ def overall_colours(pixels):
 def brightness(pixels):
     return np.mean(pixels, axis=1)
 
+# gives each of r,g,b for each pixel as a separate feature
+def colours(pixels):
+    return pixels.reshape(-1)
+
 # TODO this is still kind of inefficient. Think about it
 # ( The issue is that: series.of.arrays->np.matrix->dataframe->concat )
 def select(df, *args):
@@ -34,6 +38,10 @@ def select(df, *args):
     for arg in args:
         if arg == "Brightness Pix":
             values = np.matrix(pix.apply(brightness).tolist())
+            frame = pd.DataFrame(values, index=df.index)
+            frames.append(frame)
+        elif arg == "Colours Pix":
+            values = np.matrix(pix.apply(colours).tolist())
             frame = pd.DataFrame(values, index=df.index)
             frames.append(frame)
         elif arg == "Brightness":
