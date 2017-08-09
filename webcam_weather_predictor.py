@@ -185,7 +185,7 @@ def main():
                 dotsize = 30*pcgrid2[y].get(x,0)
                 plt.plot(arr[i],arr[j],style,markersize=dotsize)
         plt.savefig(output_dir + "/graph.png")
-        plt.show()
+        plt.clf()
         # images
         f = open(output_dir + "/images/note.txt", "w")
         f.write("There are only 30 pictures in this folder.\n")
