@@ -127,8 +127,8 @@ def main():
     totals = grid.sum(axis=1)
     pcgrid = grid.div(totals, axis=0)
     grid["total"] = totals
-    pcgrid = pcgrid.applymap(toPercent)
-    pcgrid["correct"] = np.diag(pcgrid)
+    pcgridstr = pcgrid.applymap(toPercent)
+    pcgridstr["correct"] = np.diag(pcgridstr)
 
     print("Predictions as columns, Reality as index")
     print()
@@ -136,7 +136,7 @@ def main():
     print(grid)
     print()
     print("_Percents_")
-    print(pcgrid)
+    print(pcgridstr)
 
     # output some results
     if output_dir is not None:
@@ -153,7 +153,7 @@ def main():
         f = open(output_dir + "/summary.txt", "w")
         f.write("Predictions as columns, Reality as index\n")
         f.write("\n_Totals_\n" + str(grid) + "\n")
-        f.write("\n_Percents\n" + str(pcgrid) + "\n")
+        f.write("\n_Percents\n" + str(pcgridstr) + "\n")
         f.write("\nOverall got %.2f accuracy with Support Machine Vector\n"
                 % (m3.score(models.X_test,models.y_test)))
         f.write("\nIn comparison:\n")
@@ -165,6 +165,27 @@ def main():
         # predictions.csv
         predictions.index = predictions.index.map(reader.dateToFileName)
         predictions.to_csv(output_dir + "/predictions.csv",index_label="Picture")
+        # graphs
+        plt.figure(figsize=(6,4.5))
+        arr = [-2,-1,0,1,2]
+        plt.plot(arr,arr,linewidth=0)
+        arr = [.8*a for a in arr]
+        plt.xticks(arr,OPTS,rotation="vertical",fontsize=8)
+        plt.yticks(arr,OPTS,fontsize=8)
+        plt.xlabel("predictions")
+        plt.ylabel("reality")
+        plt.gcf().subplots_adjust(bottom=0.35,left=0.28)
+        pcgrid2 = pcgrid.applymap(np.sqrt)
+        for i in [0,1,2,3,4]:
+            for j in [0,1,2,3,4]:
+                x = OPTS[i]
+                y = OPTS[j]
+                if x == y:  style = "go"
+                else:       style = "ro"
+                dotsize = 30*pcgrid2[y].get(x,0)
+                plt.plot(arr[i],arr[j],style,markersize=dotsize)
+        plt.savefig(output_dir + "/graph.png")
+        plt.show()
         # images
         f = open(output_dir + "/images/note.txt", "w")
         f.write("There are only 30 pictures in this folder.\n")
@@ -188,6 +209,10 @@ def main():
 
     print()
     print("Done.")
+    if output_dir is not None:
+        print("Have a look at %s directory!" % output_dir)
+    else:
+        print("Try passing an output_dir command line arg next time! :)")
 
 if __name__=="__main__":
     main()
