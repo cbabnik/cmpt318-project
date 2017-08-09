@@ -1,0 +1,5 @@
+There are only 30 pictures in this folder.
+The 30 were chosen randomly from the test data.
+The text written on each is the prediction.
+Correct predictions are written in green.
+Incorrect predictions are written in red.
