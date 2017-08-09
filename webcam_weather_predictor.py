@@ -24,8 +24,13 @@ import pandas as pd
 import image_feature_extraction as ife
 import modelling as models
 import data_collection as reader
+# writing files
+from glob import glob
+import os
+import random
 # imaging
 from matplotlib import pyplot as plt
+from matplotlib.image import imread
 import seaborn as sns
 
 # overwrite ife with these
@@ -82,7 +87,7 @@ def main():
 
     # setup modelling data
     print("Using PCA to reduce features... (%s features)" % PCA_F)
-    print("...please be patient (total time 30s on my machine)...")
+    print("...please be patient (takes about 20s on my machine)...")
     models.X_labels = allFeatures(data)
     models.y_labels = "Sky"
     models.PCA_FEATURES = PCA_F
@@ -91,9 +96,9 @@ def main():
     print()
     print("results:")
     # try, fit, and extract data from models
-    models.bayes(post=True)
-    models.knn(n=10, post=True)
-    model = models.svm(C=2, gamma=1e-6, post=True) # return best
+    m1 = models.bayes(post=True)
+    m2 = models.knn(n=10, post=True)
+    m3 = models.svm(C=2, gamma=1e-6, post=True) # return best
 
     # ==========
     #  Analysis
@@ -101,11 +106,11 @@ def main():
     print()
     print("(SVM model will be used for results, since it usually does best)")
     # pair predictions with original data
-    predictions = pd.DataFrame(model.predict(models.X_test), index=models.test_index)
+    predictions = pd.DataFrame(m3.predict(models.X_test), index=models.test_index)
     predictions = predictions.join(data["Sky"])
     predictions.columns = ["Prediction", "Reality"]
     # count all
-    prediction_counts = predictions
+    prediction_counts = predictions.copy()
     prediction_counts["Occurrences"] = 1
     counts = prediction_counts.groupby(["Reality", "Prediction"]).count()
     # now shape nicely in some grids
@@ -135,7 +140,54 @@ def main():
 
     # output some results
     if output_dir is not None:
-        pass
+        print()
+        print("Writing output files...")
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        if not os.path.exists(output_dir + "/images"):
+            os.makedirs(output_dir + "/images")
+        else:
+            for img in glob(output_dir + "/images/*"):
+                os.remove(img)
+        # summary
+        f = open(output_dir + "/summary.txt", "w")
+        f.write("Predictions as columns, Reality as index\n")
+        f.write("\n_Totals_\n" + str(grid) + "\n")
+        f.write("\n_Percents\n" + str(pcgrid) + "\n")
+        f.write("\nOverall got %.2f accuracy with Support Machine Vector\n"
+                % (m3.score(models.X_test,models.y_test)))
+        f.write("\nIn comparison:\n")
+        f.write("Bayes scored %.2f\n"
+                % (m1.score(models.X_test,models.y_test)))
+        f.write("K Nearest Neighbours scored %.2f\n"
+                % (m2.score(models.X_test,models.y_test)))
+        f.close()
+        # predictions.csv
+        predictions.index = predictions.index.map(reader.dateToFileName)
+        predictions.to_csv(output_dir + "/predictions.csv",index_label="Picture")
+        # images
+        f = open(output_dir + "/images/note.txt", "w")
+        f.write("There are only 30 pictures in this folder.\n")
+        f.write("The 30 were chosen randomly from the test data.\n")
+        f.write("The text written on each is the prediction.\n")
+        f.write("Correct predictions are written in green.\n")
+        f.write("Incorrect predictions are written in red.\n")
+        f.close()
+        sample = predictions.sample(30)
+        sample["correct"] = sample["Prediction"] == sample["Reality"]
+        for x in sample.index:
+            plt.imshow(imread(images_dir + "/" + x))
+            if sample["correct"].get(x): color = "green"
+            else:                        color = "red"
+            plt.text(128,96,sample["Prediction"].get(x),
+                     fontsize=20, color=color,
+                     horizontalalignment="center",
+                     verticalalignment="center")
+            plt.savefig(output_dir + "/images/" + x)
+            plt.clf()
+
+    print()
+    print("Done.")
 
 if __name__=="__main__":
     main()
