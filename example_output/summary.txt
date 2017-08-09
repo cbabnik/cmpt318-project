@@ -2,22 +2,22 @@ Predictions as columns, Reality as index
 
 _Totals_
                  Clear  Somewhat Cloudy  Very Cloudy  Rain  Snow  total
-Clear                5               22            2     0     0     29
-Somewhat Cloudy      9              109           22    13     0    153
-Very Cloudy          0               23           40    25     0     88
-Rain                 0                1           23   131     1    156
-Snow                 0                0            0     6    10     16
+Clear                5               17            1     0     0     23
+Somewhat Cloudy     14              124           20    10     1    169
+Very Cloudy          0               21           31    32     0     84
+Rain                 0                7           15   125     1    148
+Snow                 0                1            1     4    12     18
 
 _Percents
                 Clear Somewhat Cloudy Very Cloudy Rain Snow correct
-Clear             17%             76%          7%   0%   0%     17%
-Somewhat Cloudy    6%             71%         14%   8%   0%     71%
-Very Cloudy        0%             26%         45%  28%   0%     45%
-Rain               0%              1%         15%  84%   1%     84%
-Snow               0%              0%          0%  38%  62%     62%
+Clear             22%             74%          4%   0%   0%     22%
+Somewhat Cloudy    8%             73%         12%   6%   1%     73%
+Very Cloudy        0%             25%         37%  38%   0%     37%
+Rain               0%              5%         10%  84%   1%     84%
+Snow               0%              6%          6%  22%  67%     67%
 
 Overall got 0.67 accuracy with Support Machine Vector
 
 In comparison:
 Bayes scored 0.55
-K Nearest Neighbours scored 0.61
+K Nearest Neighbours scored 0.58

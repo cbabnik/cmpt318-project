@@ -165,27 +165,6 @@ def main():
         # predictions.csv
         predictions.index = predictions.index.map(reader.dateToFileName)
         predictions.to_csv(output_dir + "/predictions.csv",index_label="Picture")
-        # graphs
-        plt.figure(figsize=(6,4.5))
-        arr = [-2,-1,0,1,2]
-        plt.plot(arr,arr,linewidth=0)
-        arr = [.8*a for a in arr]
-        plt.xticks(arr,OPTS,rotation="vertical",fontsize=8)
-        plt.yticks(arr,OPTS,fontsize=8)
-        plt.xlabel("predictions")
-        plt.ylabel("reality")
-        plt.gcf().subplots_adjust(bottom=0.35,left=0.28)
-        pcgrid2 = pcgrid.applymap(np.sqrt)
-        for i in [0,1,2,3,4]:
-            for j in [0,1,2,3,4]:
-                x = OPTS[i]
-                y = OPTS[j]
-                if x == y:  style = "go"
-                else:       style = "ro"
-                dotsize = 30*pcgrid2[y].get(x,0)
-                plt.plot(arr[j],arr[i],style,markersize=dotsize)
-        plt.savefig(output_dir + "/graph.png")
-        plt.clf()
         # images
         f = open(output_dir + "/images/note.txt", "w")
         f.write("There are only 30 pictures in this folder.\n")
@@ -206,6 +185,26 @@ def main():
                      verticalalignment="center")
             plt.savefig(output_dir + "/images/" + x)
             plt.clf()
+        # graphs
+        plt.figure(figsize=(6,4.5))
+        arr = [-2,-1,0,1,2]
+        plt.plot(arr,arr,linewidth=0)
+        arr = [.8*a for a in arr]
+        plt.xticks(arr,OPTS,rotation="vertical",fontsize=8)
+        plt.yticks(arr,OPTS,fontsize=8)
+        plt.xlabel("predictions")
+        plt.ylabel("reality")
+        plt.gcf().subplots_adjust(bottom=0.35,left=0.28)
+        pcgrid2 = pcgrid.applymap(np.sqrt)
+        for i in [0,1,2,3,4]:
+            for j in [0,1,2,3,4]:
+                x = OPTS[i]
+                y = OPTS[j]
+                if x == y:  style = "go"
+                else:       style = "ro"
+                dotsize = 30*pcgrid2[y].get(x,0)
+                plt.plot(arr[j],arr[i],style,markersize=dotsize)
+        plt.savefig(output_dir + "/graph.png")
 
     print()
     print("Done.")

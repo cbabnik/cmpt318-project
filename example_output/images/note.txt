@@ -5,4 +5,4 @@ Correct predictions are written in green.
 Incorrect predictions are written in red.
 
 <edit>
-I reduced the example, so there are 15.
+I reduced the sample size for the example down to 10
