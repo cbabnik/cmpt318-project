@@ -202,7 +202,7 @@ def main():
                 y = OPTS[j]
                 if x == y:  style = "go"
                 else:       style = "ro"
-                dotsize = 30*pcgrid2[y].get(x,0)
+                dotsize = np.sqrt(grid[y].get(x,0))*2.75
                 plt.plot(arr[j],arr[i],style,markersize=dotsize)
         plt.savefig(output_dir + "/graph.png")
 
